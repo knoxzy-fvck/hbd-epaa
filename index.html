@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selamat ulang tahun cewenya akuu</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f5f5 0%, #e0e0e0 100%);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .chat-container {
+            width: 90%;
+            max-width: 400px;
+            height: 600px;
+            background-color: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .chat-header {
+            background: linear-gradient(135deg, #2c3e50 0%, rgba(0, 0, 0, 0.5) 100%);
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            background-color: #f9f9f9;
+        }
+
+        .message {
+            margin-bottom: 15px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.5s forwards;
+            animation-delay: calc(var(--order) * 0.3s);
+        }
+
+        .received {
+            align-self: flex-start;
+            background-color: white;
+            padding: 10px 15px;
+            border-radius: 18px 18px 18px 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            max-width: 80%;
+            color: #333;
+            border: 1px solid #eee;
+        }
+
+        .sent {
+            align-self: flex-end;
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.5) 0%, #2c3e50 100%);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 18px 18px 0 18px;
+            max-width: 80%;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .time {
+            font-size: 0.7rem;
+            color: #999;
+            margin-top: 5px;
+            text-align: right;
+        }
+
+        .lyrics {
+            font-style: italic;
+            background-color: rgba(0, 0, 0, 0.05);
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            text-align: center;
+            color: #555;
+            border-left: 3px solid rgba(0, 0, 0, 0.5);
+        }
+
+        .input-area {
+            padding: 10px;
+            background-color: white;
+            border-top: 1px solid #eee;
+            display: flex;
+        }
+
+        .input-area input {
+            flex: 1;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 30px;
+            outline: none;
+            font-size: 1rem;
+        }
+
+        .input-area button {
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.5) 0%, #2c3e50 100%);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            margin-left: 10px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .about-button {
+            position: absolute;
+            bottom: 80px;
+            right: 20px;
+            background: linear-gradient(135deg, #ff8a00 0%, #e52e71 100%);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 8px 15px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            z-index: 10;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 15px;
+            max-width: 80%;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            animation: modalFadeIn 0.3s;
+        }
+
+        .close-modal {
+            background: linear-gradient(135deg, #4ca1af 0%, #2c3e50 100%);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            margin-top: 15px;
+            cursor: pointer;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .glossy-text {
+            background: linear-gradient(135deg, #333 0%, #666 50%, #333 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <div class="chat-header">
+            <div class="glossy-text">ZigmaChat</div>
+        </div>
+        <div class="chat-messages" id="messages">
+            <!-- Messages will be added here by JavaScript -->
+        </div>
+        <button class="about-button" id="aboutButton">About my pretty girl</button>
+        <div class="input-area">
+            <input type="text" placeholder="Tulis pesan...">
+            <button>Kirim</button>
+        </div>
+    </div>
+
+    <div class="modal" id="aboutModal">
+        <div class="modal-content">
+            <h2 class="glossy-text">Tentang Cewe Aku</h2>
+            <p>Haii world ini cewee akuuu diaa cantii tidaa?? cantii dongg kann diaa cwee akuu hehehee. makasii yaa repaa sudaa mauu nerimaaa epann</p>
+            <button class="close-modal" id="closeModal">Close</button>
+        </div>
+    </div>
+
+    <audio id="bgMusic" loop>
+        <source src="monokrom-1754622333-musicaldowncom_6h3jwYAN.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const messages = [
+                { text: "haiii epaaa", time: "09:32", type: "received" },
+                { text: "haii", time: "09:32", type: "sent" },
+                { text: "happy birthday yaa sayangg maapp epannnn gabisa ngasih lebih soalnya epannnn lagi gaada, kaloo ada tarr epannnn kasii", time: "13:14", type: "received" },
+                { text: "iii romantis bangett makasiii epannn", time: "13:15", type: "sent" },
+                { text: "️Selamtt ulamg tahunn syanggg nyaa akuy", time: "13:16", type: "received" },
+                { 
+                    text: "Hayieee cantiii naaa aakuuu, happy birthday yawww, semogaa panjangg umurr (aamiin) semogaa kitaaa bisaa samaa samaa terusss yaaa cill", 
+                    time: "13:20", 
+                    type: "lyrics" 
+                }
+            ];
+
+            const messagesContainer = document.getElementById('messages');
+            
+            // Play background music
+            const bgMusic = document.getElementById('bgMusic');
+            bgMusic.volume = 0.3;
+            document.body.addEventListener('click', function() {
+                bgMusic.play();
+            }, { once: true });
+
+            // Display messages with animation
+            messages.forEach((message, index) => {
+                setTimeout(() => {
+                    const messageElement = document.createElement('div');
+                    messageElement.classList.add('message');
+                    messageElement.style.setProperty('--order', index);
+                    
+                    if (message.type === 'lyrics') {
+                        messageElement.innerHTML = `
+                            <div class="lyrics">${message.text}</div>
+                            <div class="time">${message.time}</div>
+                        `;
+                    } else {
+                        messageElement.innerHTML = `
+                            <div class="${message.type}">${message.text}</div>
+                            <div class="time">${message.time}</div>
+                        `;
+                    }
+                    
+                    messagesContainer.appendChild(messageElement);
+                    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                }, index * 1500);
+            });
+
+            // About modal functionality
+            const aboutButton = document.getElementById('aboutButton');
+            const aboutModal = document.getElementById('aboutModal');
+            const closeModal = document.getElementById('closeModal');
+
+            aboutButton.addEventListener('click', function() {
+                aboutModal.style.display = 'flex';
+            });
+
+            closeModal.addEventListener('click', function() {
+                aboutModal.style.display = 'none';
+            });
+
+            // Close modal when clicking outside
+            aboutModal.addEventListener('click', function(e) {
+                if (e.target === aboutModal) {
+                    aboutModal.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html
